@@ -1,4 +1,5 @@
 package org.kiwi.domain;
 
-public class UsersRepository {
+public interface UsersRepository {
+    User getUserById(int userId);
 }

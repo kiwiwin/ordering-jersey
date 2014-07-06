@@ -5,10 +5,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
 public class OrdersResource {
-    private final int userId;
+    private final User user;
 
-    public OrdersResource(int userId) {
-        this.userId = userId;
+    public OrdersResource(User user) {
+        this.user = user;
     }
 
     @GET

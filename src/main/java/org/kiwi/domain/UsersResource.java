@@ -1,12 +1,17 @@
 package org.kiwi.domain;
 
+import javax.inject.Inject;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
 @Path("users")
 public class UsersResource {
+    @Inject
+    private UsersRepository usersRepository;
+
     @Path("{userId}/orders")
     public OrdersResource getOrderResource(@PathParam("userId") int userId) {
-        return new OrdersResource(userId);
+        final User user = usersRepository.getUserById(userId);
+        return new OrdersResource(user);
     }
 }
