@@ -1,4 +1,4 @@
-package org.kiwi;
+package org.kiwi.domain;
 
 public class Product {
 }

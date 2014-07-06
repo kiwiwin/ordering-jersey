@@ -1,4 +1,4 @@
-package org.kiwi;
+package org.kiwi.domain;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;

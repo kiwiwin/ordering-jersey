@@ -5,6 +5,9 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kiwi.domain.ProductsRepository;
+import org.kiwi.domain.handler.ResourceNotFoundException;
+import org.kiwi.domain.handler.ResourceNotFoundExceptionHandler;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
