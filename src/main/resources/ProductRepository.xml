@@ -15,8 +15,11 @@
         #{product.price});
     </insert>
 
-    <select id="getProductById" resultMap="resultProduct" parameterType="org.kiwi.domain.Product">
+    <select id="getProductById" resultMap="resultProduct">
         select * from Products where id = #{productId}
     </select>
 
+    <select id="getProducts" resultMap="resultProduct">
+        select * from Products
+    </select>
 </mapper>
