@@ -9,7 +9,16 @@ public class ProductRefJson {
         this.product = product;
     }
 
+    public int getId() {
+        return product.getId();
+    }
+
     public String getName() {
         return product.getName();
     }
+
+    public String getDescription() {
+        return product.getDescription();
+    }
+
 }

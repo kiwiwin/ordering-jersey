@@ -6,6 +6,7 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kiwi.domain.Product;
+import org.kiwi.domain.ProductWithId;
 import org.kiwi.domain.ProductsRepository;
 import org.kiwi.domain.handler.ResourceNotFoundException;
 import org.kiwi.domain.handler.ResourceNotFoundExceptionHandler;
@@ -31,7 +32,7 @@ public class ProductsResourceTest extends JerseyTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        when(productsRepository.getProductById(eq(1))).thenReturn(new Product("apple juice", "good"));
+        when(productsRepository.getProductById(eq(1))).thenReturn(ProductWithId.productWithId(1, new Product("apple juice", "good")));
         when(productsRepository.getProductById(eq(100))).thenThrow(new ResourceNotFoundException());
     }
 
@@ -59,7 +60,9 @@ public class ProductsResourceTest extends JerseyTest {
 
         final Map product = response.readEntity(Map.class);
 
-        assertThat((String)product.get("name"), is("apple juice"));
+        assertThat((Integer) product.get("id"), is(1));
+        assertThat((String) product.get("name"), is("apple juice"));
+        assertThat((String) product.get("description"), is("good"));
     }
 
     @Test
