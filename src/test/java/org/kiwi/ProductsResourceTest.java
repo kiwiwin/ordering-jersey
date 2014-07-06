@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
@@ -63,6 +64,7 @@ public class ProductsResourceTest extends JerseyTest {
         assertThat((Integer) product.get("id"), is(1));
         assertThat((String) product.get("name"), is("apple juice"));
         assertThat((String) product.get("description"), is("good"));
+        assertThat((String) product.get("uri"), endsWith("/products/1"));
     }
 
     @Test
