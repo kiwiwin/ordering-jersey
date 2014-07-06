@@ -17,6 +17,7 @@ import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.kiwi.domain.UserIWithId.userWithId;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -62,7 +63,9 @@ public class UserResourceTest extends JerseyTest {
         assertThat(response.getStatus(), is(200));
 
         final Map order = response.readEntity(Map.class);
+        assertThat(order.get("id"), is(1));
         assertThat(order.get("price"), is(100));
+        assertThat((String)order.get("uri"), endsWith("/users/1/orders/1"));
     }
 
     @Test
