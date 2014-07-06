@@ -13,11 +13,13 @@ public class OrdersResource {
     private final User user;
     private final OrdersMapper ordersMapper;
     private final ProductsRepository productsRepository;
+    private final PaymentMapper paymentMapper;
 
-    public OrdersResource(User user, OrdersMapper ordersMapper, ProductsRepository productsRepository) {
+    public OrdersResource(User user, OrdersMapper ordersMapper, ProductsRepository productsRepository, PaymentMapper paymentMapper) {
         this.user = user;
         this.ordersMapper = ordersMapper;
         this.productsRepository = productsRepository;
+        this.paymentMapper = paymentMapper;
     }
 
     @GET
@@ -39,7 +41,8 @@ public class OrdersResource {
     @Path("{orderId}/payment")
     @Produces(MediaType.APPLICATION_JSON)
     public PaymentRefJson getOrderPayment(@PathParam("orderId") int orderId) {
-        return new PaymentRefJson(new Payment("cash", 100));
+        final Order order = ordersMapper.getOrder(user, orderId);
+        return new PaymentRefJson(paymentMapper.getPayment(order));
     }
 
 }

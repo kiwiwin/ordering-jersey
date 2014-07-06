@@ -39,6 +39,9 @@ public class UserResourceTest extends JerseyTest {
     private OrdersMapper ordersMapper;
 
     @Mock
+    private PaymentMapper paymentMapper;
+
+    @Mock
     private ProductsRepository productsRepository;
 
     @Captor
@@ -55,6 +58,7 @@ public class UserResourceTest extends JerseyTest {
                         bind(usersRepository).to(UsersRepository.class);
                         bind(ordersMapper).to(OrdersMapper.class);
                         bind(productsRepository).to(ProductsRepository.class);
+                        bind(paymentMapper).to(PaymentMapper.class);
                     }
                 });
     }
@@ -116,6 +120,7 @@ public class UserResourceTest extends JerseyTest {
 
     @Test
     public void should_get_payment() {
+        when(paymentMapper.getPayment(any(Order.class))).thenReturn(PaymentWithId.paymentWithId(1, new Payment("cash", 100)));
         final Response response = target("users/1/orders/1/payment")
                 .request()
                 .get();
@@ -124,5 +129,15 @@ public class UserResourceTest extends JerseyTest {
 
         final Map map = response.readEntity(Map.class);
         assertThat(map.get("type"), is("cash"));
+    }
+
+    @Test
+    public void should_get_404_when_not_paid() {
+        when(paymentMapper.getPayment(any(Order.class))).thenThrow(new ResourceNotFoundException());
+        final Response response = target("users/1/orders/1/payment")
+                .request()
+                .get();
+
+        assertThat(response.getStatus(), is(404));
     }
 }
