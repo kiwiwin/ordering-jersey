@@ -44,7 +44,7 @@ public class OrdersMapperTest {
 
     @Test
     public void should_get_order() {
-        final Order orderById = ordersMapper.getOrder(user, order.getId());
+        final Order orderById = ordersMapper.getOrder(order.getId());
 
         assertThat(orderById.getProduct().getName(), is("apple juice"));
     }

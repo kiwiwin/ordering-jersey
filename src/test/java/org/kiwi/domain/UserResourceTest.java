@@ -72,7 +72,7 @@ public class UserResourceTest extends JerseyTest {
         when(usersRepository.getUserById(1)).thenReturn(userWithId(1, new User("kiwi")));
         when(usersRepository.getUserById(100)).thenThrow(new ResourceNotFoundException());
 
-        when(ordersMapper.getOrder(any(User.class), eq(1))).thenReturn(OrderWithId.orderWithId(1, new Order(productWithId(1
+        when(ordersMapper.getOrder(eq(1))).thenReturn(OrderWithId.orderWithId(1, new Order(productWithId(1
                 , new Product("apple juice", "good", 100)))));
 
         when(productsRepository.getProductById(eq(1))).thenReturn(productWithId(1, new Product("apple juice", "good", 100)));

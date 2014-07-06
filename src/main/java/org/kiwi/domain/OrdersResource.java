@@ -26,7 +26,7 @@ public class OrdersResource {
     @Path("{orderId}")
     @Produces(MediaType.APPLICATION_JSON)
     public OrderRefJson getOrder(@PathParam("orderId") int orderId, @Context UriInfo uriInfo) {
-        return new OrderRefJson(user, ordersMapper.getOrder(user, orderId), uriInfo);
+        return new OrderRefJson(user, ordersMapper.getOrder(orderId), uriInfo);
     }
 
     @POST
@@ -41,7 +41,7 @@ public class OrdersResource {
     @Path("{orderId}/payment")
     @Produces(MediaType.APPLICATION_JSON)
     public PaymentRefJson getOrderPayment(@PathParam("orderId") int orderId) {
-        final Order order = ordersMapper.getOrder(user, orderId);
+        final Order order = ordersMapper.getOrder(orderId);
         return new PaymentRefJson(paymentMapper.getPayment(order));
     }
 
@@ -49,7 +49,7 @@ public class OrdersResource {
     @Path("{orderId}/payment")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response createPayment(@PathParam("orderId") int orderId, @FormParam("type") String type, @FormParam("amount") int amount) {
-        final Order order = ordersMapper.getOrder(user, orderId);
+        final Order order = ordersMapper.getOrder(orderId);
         final Payment payment = new Payment(type, amount);
         paymentMapper.createPayment(order, payment);
         return Response.status(201).header("location", new PaymentRefJson(payment)).build();
