@@ -25,5 +25,6 @@
     </environments>
     <mappers>
         <mapper resource="ProductRepository.xml"/>
+        <mapper resource="UsersRepository.xml"/>
     </mappers>
 </configuration>

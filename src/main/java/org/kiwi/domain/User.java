@@ -4,6 +4,10 @@ public class User {
     int id;
     private String name;
 
+    private User() {
+        
+    }
+
     public User(String name) {
         this.name = name;
     }

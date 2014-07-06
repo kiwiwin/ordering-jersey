@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.kiwi.domain.UsersRepository">
+    <resultMap id="resultUser" type="org.kiwi.domain.User">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <insert id="createUser" parameterType="org.kiwi.domain.User" keyProperty="user.id" useGeneratedKeys="true">
+        insert into Users (name) values (#{user.name});
+    </insert>
+
+    <select id="getUserById" resultMap="resultUser">
+        select * from Users where id = #{userId}
+    </select>
+
+</mapper>
