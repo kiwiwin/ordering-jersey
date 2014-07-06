@@ -50,8 +50,9 @@ public class OrdersResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response createPayment(@PathParam("orderId") int orderId, @FormParam("type") String type, @FormParam("amount") int amount) {
         final Order order = ordersMapper.getOrder(user, orderId);
-        paymentMapper.createPayment(order, new Payment(type, amount));
-        return Response.status(201).build();
+        final Payment payment = new Payment(type, amount);
+        paymentMapper.createPayment(order, payment);
+        return Response.status(201).header("location", new PaymentRefJson(payment)).build();
     }
 
 }
