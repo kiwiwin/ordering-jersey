@@ -27,6 +27,7 @@ import static org.kiwi.domain.ProductWithId.productWithId;
 import static org.kiwi.domain.UserIWithId.userWithId;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -37,8 +38,11 @@ public class UserResourceTest extends JerseyTest {
     @Mock
     private OrdersMapper ordersMapper;
 
+    @Mock
+    private ProductsRepository productsRepository;
+
     @Captor
-    private ArgumentCaptor<Product> argumentUserCaptor;
+    private ArgumentCaptor<Order> argumentOrderCaptor;
 
     @Override
     protected Application configure() {
@@ -50,6 +54,7 @@ public class UserResourceTest extends JerseyTest {
                     protected void configure() {
                         bind(usersRepository).to(UsersRepository.class);
                         bind(ordersMapper).to(OrdersMapper.class);
+                        bind(productsRepository).to(ProductsRepository.class);
                     }
                 });
     }
@@ -62,6 +67,8 @@ public class UserResourceTest extends JerseyTest {
 
         when(ordersMapper.getOrder(any(User.class), eq(1))).thenReturn(OrderWithId.orderWithId(1, new Order(productWithId(1
                 , new Product("apple juice", "good", 100)))));
+
+        when(productsRepository.getProductById(eq(1))).thenReturn(productWithId(1, new Product("apple juice", "good", 100)));
     }
 
     @Test
@@ -99,6 +106,10 @@ public class UserResourceTest extends JerseyTest {
                 .request()
                 .post(Entity.form(keyValues));
 
+        verify(ordersMapper).createOrder(argumentOrderCaptor.capture());
+
         assertThat(response.getStatus(), is(201));
+        assertThat(argumentOrderCaptor.getValue().getProduct().getId(), is(1));
+        assertThat(argumentOrderCaptor.getValue().getProduct().getName(), is("apple juice"));
     }
 }

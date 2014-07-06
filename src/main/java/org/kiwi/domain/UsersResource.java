@@ -12,9 +12,12 @@ public class UsersResource {
     @Inject
     private OrdersMapper ordersMapper;
 
+    @Inject
+    private ProductsRepository productsRepository;
+
     @Path("{userId}/orders")
     public OrdersResource getOrderResource(@PathParam("userId") int userId) {
         final User user = usersRepository.getUserById(userId);
-        return new OrdersResource(user, ordersMapper);
+        return new OrdersResource(user, ordersMapper, productsRepository);
     }
 }

@@ -11,10 +11,12 @@ import javax.ws.rs.core.UriInfo;
 public class OrdersResource {
     private final User user;
     private final OrdersMapper ordersMapper;
+    private final ProductsRepository productsRepository;
 
-    public OrdersResource(User user, OrdersMapper ordersMapper) {
+    public OrdersResource(User user, OrdersMapper ordersMapper, ProductsRepository productsRepository) {
         this.user = user;
         this.ordersMapper = ordersMapper;
+        this.productsRepository = productsRepository;
     }
 
     @GET
@@ -26,7 +28,9 @@ public class OrdersResource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createOrder(@PathParam("productId") int productId, @Context UriInfo uriInfo) {
+    public Response createOrder(@FormParam("productId") int productId, @Context UriInfo uriInfo) {
+        final Order order = new Order(productsRepository.getProductById(productId));
+        ordersMapper.createOrder(order);
         return Response.status(201).build();
     }
 }
