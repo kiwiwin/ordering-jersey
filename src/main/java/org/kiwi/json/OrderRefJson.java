@@ -27,4 +27,8 @@ public class OrderRefJson {
     public String getUri() {
         return uriInfo.getBaseUri() + "users/" + user.getId() + "/orders/" + order.getId();
     }
+
+    public ProductRefJson getProduct() {
+        return new ProductRefJson(order.getProduct(), uriInfo);
+    }
 }

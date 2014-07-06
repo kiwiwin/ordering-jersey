@@ -18,6 +18,7 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringEndsWith.endsWith;
+import static org.kiwi.domain.ProductWithId.productWithId;
 import static org.kiwi.domain.UserIWithId.userWithId;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -51,7 +52,8 @@ public class UserResourceTest extends JerseyTest {
         when(usersRepository.getUserById(1)).thenReturn(userWithId(1, new User("kiwi")));
         when(usersRepository.getUserById(100)).thenThrow(new ResourceNotFoundException());
 
-        when(ordersMapper.getOrder(any(User.class), eq(1))).thenReturn(OrderWithId.orderWithId(1, new Order(new Product("apple juice", "good", 100))));
+        when(ordersMapper.getOrder(any(User.class), eq(1))).thenReturn(OrderWithId.orderWithId(1, new Order(productWithId(1
+                , new Product("apple juice", "good", 100)))));
     }
 
     @Test
@@ -65,7 +67,10 @@ public class UserResourceTest extends JerseyTest {
         final Map order = response.readEntity(Map.class);
         assertThat(order.get("id"), is(1));
         assertThat(order.get("price"), is(100));
-        assertThat((String)order.get("uri"), endsWith("/users/1/orders/1"));
+        assertThat((String) order.get("uri"), endsWith("/users/1/orders/1"));
+
+        final Map product = (Map) order.get("product");
+        assertThat(product.get("name"), is("apple juice"));
     }
 
     @Test
