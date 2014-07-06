@@ -13,15 +13,22 @@ import org.mockito.runners.MockitoJUnitRunner;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
+import java.util.Map;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.kiwi.domain.UserIWithId.userWithId;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserResourceTest extends JerseyTest {
     @Mock
     private UsersRepository usersRepository;
+
+    @Mock
+    private OrdersMapper ordersMapper;
 
     @Override
     protected Application configure() {
@@ -32,6 +39,7 @@ public class UserResourceTest extends JerseyTest {
                     @Override
                     protected void configure() {
                         bind(usersRepository).to(UsersRepository.class);
+                        bind(ordersMapper).to(OrdersMapper.class);
                     }
                 });
     }
@@ -41,6 +49,8 @@ public class UserResourceTest extends JerseyTest {
         super.setUp();
         when(usersRepository.getUserById(1)).thenReturn(userWithId(1, new User("kiwi")));
         when(usersRepository.getUserById(100)).thenThrow(new ResourceNotFoundException());
+
+        when(ordersMapper.getOrder(any(User.class), eq(1))).thenReturn(OrderWithId.orderWithId(1, new Order(new Product("apple juice", "good", 100))));
     }
 
     @Test
@@ -50,6 +60,9 @@ public class UserResourceTest extends JerseyTest {
                 .get();
 
         assertThat(response.getStatus(), is(200));
+
+        final Map order = response.readEntity(Map.class);
+        assertThat(order.get("price"), is(100));
     }
 
     @Test
