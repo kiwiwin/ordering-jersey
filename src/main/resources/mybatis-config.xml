@@ -26,5 +26,6 @@
     <mappers>
         <mapper resource="ProductRepository.xml"/>
         <mapper resource="UsersRepository.xml"/>
+        <mapper resource="OrdersMapper.xml"/>
     </mappers>
 </configuration>

@@ -113,7 +113,7 @@ public class UserResourceTest extends JerseyTest {
                 .request()
                 .post(Entity.form(keyValues));
 
-        verify(ordersMapper).createOrder(argumentOrderCaptor.capture());
+        verify(ordersMapper).createOrder(any(User.class), argumentOrderCaptor.capture());
 
         assertThat(response.getStatus(), is(201));
         assertThat(argumentOrderCaptor.getValue().getProduct().getId(), is(1));

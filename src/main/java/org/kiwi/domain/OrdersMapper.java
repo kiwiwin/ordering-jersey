@@ -1,7 +1,9 @@
 package org.kiwi.domain;
 
-public interface OrdersMapper {
-    Order getOrder(User user, int orderId);
+import org.apache.ibatis.annotations.Param;
 
-    int createOrder(Order order);
+public interface OrdersMapper {
+    Order getOrder(@Param("user") User user, @Param("orderId") int orderId);
+
+    void createOrder(@Param("user") User user, @Param("order") Order order);
 }

@@ -33,7 +33,7 @@ public class OrdersResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response createOrder(@FormParam("productId") int productId, @Context UriInfo uriInfo) {
         final Order order = new Order(productsRepository.getProductById(productId));
-        ordersMapper.createOrder(order);
+        ordersMapper.createOrder(user, order);
         return Response.status(201).header("location", new OrderRefJson(user, order, uriInfo).getUri()).build();
     }
 

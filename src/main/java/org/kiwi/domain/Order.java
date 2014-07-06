@@ -4,6 +4,10 @@ public class Order {
     int id;
     private Product product;
 
+    private Order() {
+
+    }
+
     public Order(Product product) {
         this.product = product;
     }
