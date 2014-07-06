@@ -33,4 +33,11 @@ public class OrdersResource {
         ordersMapper.createOrder(order);
         return Response.status(201).header("location", new OrderRefJson(user, order, uriInfo).getUri()).build();
     }
+
+    @GET
+    @Path("{orderId}/payment")
+    public String getOrderPayment(@PathParam("orderId") int orderId) {
+        return "";
+    }
+
 }

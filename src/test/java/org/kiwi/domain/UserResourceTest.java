@@ -112,4 +112,14 @@ public class UserResourceTest extends JerseyTest {
         assertThat(argumentOrderCaptor.getValue().getProduct().getId(), is(1));
         assertThat(argumentOrderCaptor.getValue().getProduct().getName(), is("apple juice"));
     }
+
+
+    @Test
+    public void should_get_payment() {
+        final Response response = target("users/1/orders/1/payment")
+                .request()
+                .get();
+
+        assertThat(response.getStatus(), is(200));
+    }
 }
