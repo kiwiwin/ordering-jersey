@@ -47,6 +47,9 @@ public class UserResourceTest extends JerseyTest {
     @Captor
     private ArgumentCaptor<Order> argumentOrderCaptor;
 
+    @Captor
+    private ArgumentCaptor<Payment> argumentPaymentCaptor;
+
     @Override
     protected Application configure() {
         return new ResourceConfig()
@@ -152,5 +155,8 @@ public class UserResourceTest extends JerseyTest {
                 .post(Entity.form(keyValues));
 
         assertThat(response.getStatus(), is(201));
+
+        verify(paymentMapper).createPayment(any(Order.class), argumentPaymentCaptor.capture());
+        assertThat(argumentPaymentCaptor.getValue().getType(), is("cash"));
     }
 }

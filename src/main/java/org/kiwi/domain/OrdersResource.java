@@ -48,7 +48,9 @@ public class OrdersResource {
     @POST
     @Path("{orderId}/payment")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response createPayment(@FormParam("type") String type, @FormParam("amount") int amount) {
+    public Response createPayment(@PathParam("orderId") int orderId, @FormParam("type") String type, @FormParam("amount") int amount) {
+        final Order order = ordersMapper.getOrder(user, orderId);
+        paymentMapper.createPayment(order, new Payment(type, amount));
         return Response.status(201).build();
     }
 
