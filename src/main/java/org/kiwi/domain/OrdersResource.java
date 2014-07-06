@@ -30,7 +30,7 @@ public class OrdersResource {
     }
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response createOrder(@FormParam("productId") int productId, @Context UriInfo uriInfo) {
         final Order order = new Order(productsRepository.getProductById(productId));
         ordersMapper.createOrder(order);
@@ -43,6 +43,13 @@ public class OrdersResource {
     public PaymentRefJson getOrderPayment(@PathParam("orderId") int orderId) {
         final Order order = ordersMapper.getOrder(user, orderId);
         return new PaymentRefJson(paymentMapper.getPayment(order));
+    }
+
+    @POST
+    @Path("{orderId}/payment")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response createPayment(@FormParam("type") String type, @FormParam("amount") int amount) {
+        return Response.status(201).build();
     }
 
 }

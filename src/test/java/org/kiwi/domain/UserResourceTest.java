@@ -140,4 +140,17 @@ public class UserResourceTest extends JerseyTest {
 
         assertThat(response.getStatus(), is(404));
     }
+
+    @Test
+    public void should_create_payment() {
+        final MultivaluedMap<String, String> keyValues = new MultivaluedHashMap<>();
+        keyValues.putSingle("type", "cash");
+        keyValues.putSingle("amount", "100");
+
+        final Response response = target("users/1/orders/1/payment")
+                .request()
+                .post(Entity.form(keyValues));
+
+        assertThat(response.getStatus(), is(201));
+    }
 }
