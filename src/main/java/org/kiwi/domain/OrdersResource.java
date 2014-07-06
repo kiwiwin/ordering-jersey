@@ -31,6 +31,6 @@ public class OrdersResource {
     public Response createOrder(@FormParam("productId") int productId, @Context UriInfo uriInfo) {
         final Order order = new Order(productsRepository.getProductById(productId));
         ordersMapper.createOrder(order);
-        return Response.status(201).build();
+        return Response.status(201).header("location", new OrderRefJson(user, order, uriInfo).getUri()).build();
     }
 }
