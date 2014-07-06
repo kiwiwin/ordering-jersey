@@ -1,5 +1,6 @@
 package org.kiwi.domain;
 
+import org.glassfish.jersey.server.Uri;
 import org.kiwi.json.ProductRefJson;
 
 import javax.inject.Inject;
@@ -10,6 +11,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/products")
 public class ProductsResource {
@@ -25,7 +28,11 @@ public class ProductsResource {
     }
 
     @GET
-    public String getProducts() {
-        return "";
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ProductRefJson> getProducts(@Context UriInfo uriInfo) {
+        final List<Product> products = productsRepository.getProducts();
+        return products.stream()
+                .map(product -> new ProductRefJson(product, uriInfo))
+                .collect(Collectors.toList());
     }
 }
