@@ -7,10 +7,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kiwi.domain.handler.ResourceNotFoundException;
 import org.kiwi.domain.handler.ResourceNotFoundExceptionHandler;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import java.util.Map;
@@ -31,6 +36,9 @@ public class UserResourceTest extends JerseyTest {
 
     @Mock
     private OrdersMapper ordersMapper;
+
+    @Captor
+    private ArgumentCaptor<Product> argumentUserCaptor;
 
     @Override
     protected Application configure() {
@@ -80,5 +88,17 @@ public class UserResourceTest extends JerseyTest {
                 .get();
 
         assertThat(response.getStatus(), is(404));
+    }
+
+    @Test
+    public void should_create_order() {
+        final MultivaluedMap<String, String> keyValues = new MultivaluedHashMap<>();
+        keyValues.putSingle("productId", "1");
+
+        final Response response = target("users/1/orders")
+                .request()
+                .post(Entity.form(keyValues));
+
+        assertThat(response.getStatus(), is(201));
     }
 }

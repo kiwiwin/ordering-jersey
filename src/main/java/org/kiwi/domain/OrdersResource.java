@@ -2,12 +2,10 @@ package org.kiwi.domain;
 
 import org.kiwi.json.OrderRefJson;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 public class OrdersResource {
@@ -24,5 +22,11 @@ public class OrdersResource {
     @Produces(MediaType.APPLICATION_JSON)
     public OrderRefJson getOrder(@PathParam("orderId") int orderId, @Context UriInfo uriInfo) {
         return new OrderRefJson(user, ordersMapper.getOrder(user, orderId), uriInfo);
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createOrder(@PathParam("productId") int productId, @Context UriInfo uriInfo) {
+        return Response.status(201).build();
     }
 }
