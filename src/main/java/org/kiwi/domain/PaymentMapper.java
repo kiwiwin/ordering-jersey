@@ -1,7 +1,9 @@
 package org.kiwi.domain;
 
-public interface PaymentMapper {
-    Payment getPayment(Order order);
+import org.apache.ibatis.annotations.Param;
 
-    void createPayment(Order order, Payment payment);
+public interface PaymentMapper {
+    Payment getPayment(@Param("order") Order order);
+
+    void createPayment(@Param("order") Order order, @Param("payment") Payment payment);
 }

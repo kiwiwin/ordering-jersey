@@ -5,6 +5,10 @@ public class Payment {
     private String type;
     private int amount;
 
+    private Payment() {
+
+    }
+
     public Payment(String type, int amount) {
         this.type = type;
         this.amount = amount;

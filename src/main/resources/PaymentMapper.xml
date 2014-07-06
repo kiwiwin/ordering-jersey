@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.kiwi.domain.PaymentMapper">
+    <resultMap id="resultPayment" type="org.kiwi.domain.Payment">
+        <id property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="amount" column="amount"/>
+    </resultMap>
+
+    <insert id="createPayment" parameterType="map" keyProperty="payment.id" useGeneratedKeys="true">
+        insert into Payment (type, amount, order_id) values (#{payment.type}, #{payment.amount}, #{order.id})
+    </insert>
+
+    <select id="getPayment" parameterType="map" resultMap="resultPayment">
+        select * from Payment where order_id = #{order.id}
+    </select>
+
+</mapper>

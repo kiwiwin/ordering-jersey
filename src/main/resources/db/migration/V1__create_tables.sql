@@ -21,5 +21,7 @@ CREATE TABLE Orders (
 CREATE TABLE Payment (
   id SERIAL PRIMARY KEY,
   order_id INT NOT NULL,
+  type VARCHAR(16) NOT NULL,
+  amount INT NOT NULL,
   Foreign Key (order_id) REFERENCES Orders(id)
 );
