@@ -121,5 +121,8 @@ public class UserResourceTest extends JerseyTest {
                 .get();
 
         assertThat(response.getStatus(), is(200));
+
+        final Map map = response.readEntity(Map.class);
+        assertThat(map.get("type"), is("cash"));
     }
 }

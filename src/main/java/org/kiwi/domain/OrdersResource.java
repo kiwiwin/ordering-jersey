@@ -1,6 +1,7 @@
 package org.kiwi.domain;
 
 import org.kiwi.json.OrderRefJson;
+import org.kiwi.json.PaymentRefJson;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -36,8 +37,9 @@ public class OrdersResource {
 
     @GET
     @Path("{orderId}/payment")
-    public String getOrderPayment(@PathParam("orderId") int orderId) {
-        return "";
+    @Produces(MediaType.APPLICATION_JSON)
+    public PaymentRefJson getOrderPayment(@PathParam("orderId") int orderId) {
+        return new PaymentRefJson(new Payment("cash", 100));
     }
 
 }
