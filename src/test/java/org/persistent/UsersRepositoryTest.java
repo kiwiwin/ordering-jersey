@@ -1,6 +1,7 @@
 package org.persistent;
 
 import org.apache.ibatis.session.SqlSession;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kiwi.domain.User;
@@ -22,6 +23,11 @@ public class UsersRepositoryTest {
 
         user = new User("kiwi");
         usersRepository.createUser(user);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        sqlSession.rollback();
     }
 
     @Test
