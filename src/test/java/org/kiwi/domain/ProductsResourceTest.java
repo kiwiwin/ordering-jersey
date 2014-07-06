@@ -32,9 +32,9 @@ public class ProductsResourceTest extends JerseyTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        when(productsRepository.getProductById(eq(1))).thenReturn(productWithId(1, new Product("apple juice", "good")));
+        when(productsRepository.getProductById(eq(1))).thenReturn(productWithId(1, new Product("apple juice", "good", 100)));
         when(productsRepository.getProductById(eq(100))).thenThrow(new ResourceNotFoundException());
-        when(productsRepository.getProducts()).thenReturn(Arrays.asList(productWithId(1, new Product("apple juice", "good")), productWithId(2, new Product("banana juice", "just so so"))));
+        when(productsRepository.getProducts()).thenReturn(Arrays.asList(productWithId(1, new Product("apple juice", "good", 100)), productWithId(2, new Product("banana juice", "just so so", 100))));
     }
 
 
@@ -64,6 +64,7 @@ public class ProductsResourceTest extends JerseyTest {
         assertThat(product.get("id"), is(1));
         assertThat(product.get("name"), is("apple juice"));
         assertThat(product.get("description"), is("good"));
+        assertThat(product.get("price"), is(100));
         assertThat((String) product.get("uri"), endsWith("/products/1"));
     }
 
