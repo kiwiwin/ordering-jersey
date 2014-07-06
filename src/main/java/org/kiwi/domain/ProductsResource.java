@@ -23,4 +23,9 @@ public class ProductsResource {
         final Product product = productsRepository.getProductById(productId);
         return new ProductRefJson(product, uriInfo);
     }
+
+    @GET
+    public String getProducts() {
+        return "";
+    }
 }
